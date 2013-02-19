@@ -17,13 +17,13 @@ if os.environ.get('LC_CTYPE', '').lower() == 'utf-8':
     os.environ['LC_CTYPE'] = 'en_US.utf-8'
 
 from datetime import datetime
-from flask import _request_ctx_stack
-from babel import dates, numbers, support, Locale
-from werkzeug import ImmutableDict
+from third_party.flask import _request_ctx_stack
+from third_party.babel import dates, numbers, support, Locale
+from third_party.werkzeug import ImmutableDict
 try:
-    from pytz.gae import pytz
+    from third_party.pytz.gae import pytz
 except ImportError:
-    from pytz import timezone, UTC
+    from third_party.pytz import timezone, UTC
 else:
     timezone = pytz.timezone
     UTC = pytz.UTC
