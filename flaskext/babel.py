@@ -19,11 +19,11 @@ if os.environ.get('LC_CTYPE', '').lower() == 'utf-8':
 from datetime import datetime
 from third_party.flask import _request_ctx_stack
 from third_party.babel import dates, numbers, support, Locale
-from third_party.werkzeug import ImmutableDict
+from werkzeug import ImmutableDict
 try:
-    from third_party.pytz.gae import pytz
+    from pytz.gae import pytz
 except ImportError:
-    from third_party.pytz import timezone, UTC
+    from pytz import timezone, UTC
 else:
     timezone = pytz.timezone
     UTC = pytz.UTC
