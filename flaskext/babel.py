@@ -55,9 +55,11 @@ class Babel(object):
     })
 
     def __init__(self, app=None, default_locale='en', default_timezone='UTC',
-                 date_formats=None, configure_jinja=True):
+                 translation_root=None, date_formats=None,
+                 configure_jinja=True):
         self._default_locale = default_locale
         self._default_timezone = default_timezone
+        self._translation_root = translation_root
         self._date_formats = date_formats
         self._configure_jinja = configure_jinja
         self.app = app
@@ -143,12 +145,17 @@ class Babel(object):
         return f
 
 
+    def translation_root(self):
+        if self._translation_root:
+            return self._translation_root
+        return os.path.join(self.app.root_path, 'translations')
+
     def list_translations(self):
         """Returns a list of all the locales translations exist for.
 
         .. versionadded:: 0.6
         """
-        dirname = os.path.join(self.app.root_path, 'translations')
+        dirname = self.translation_root()
         if not os.path.isdir(dirname):
             return []
         result = []
@@ -188,7 +195,8 @@ def get_translations():
         return None
     translations = getattr(ctx, 'babel_translations', None)
     if translations is None:
-        dirname = os.path.join(ctx.app.root_path, 'translations')
+        babel = ctx.app.extensions['babel']
+        dirname = babel.translation_root()
         translations = support.Translations.load(dirname, [get_locale()])
         ctx.babel_translations = translations
     return translations
