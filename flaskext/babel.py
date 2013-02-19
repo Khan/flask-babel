@@ -461,8 +461,14 @@ def gettext(string, **variables):
     """
     t = get_translations()
     if t is None:
-        return string % variables
-    return t.ugettext(string) % variables
+        translated_string = string
+    else:
+        translated_string = t.ugettext(string)
+
+    if variables:
+        return translated_string % variables
+    else:
+        return translated_string
 _ = gettext
 
 
@@ -481,8 +487,14 @@ def ngettext(singular, plural, num, **variables):
     variables.setdefault('num', num)
     t = get_translations()
     if t is None:
-        return (singular if num == 1 else plural) % variables
-    return t.ungettext(singular, plural, num) % variables
+        translated_string = (singular if num == 1 else plural)
+    else:
+        translated_string = t.ungettext(singular, plural, num)
+
+    if variables:
+        return translated_string % variables
+    else:
+        return translated_string
 
 
 def pgettext(context, string, **variables):
