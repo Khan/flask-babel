@@ -144,9 +144,7 @@ class Babel(object):
 
 
     def list_translations(self):
-        """Returns a list of all the locales translations exist for.  The
-        list returned will be filled with actual locale objects and not just
-        strings.
+        """Returns a list of all the locales translations exist for.
 
         .. versionadded:: 0.6
         """
@@ -159,9 +157,9 @@ class Babel(object):
             if not os.path.isdir(locale_dir):
                 continue
             if filter(lambda x: x.endswith('.mo'), os.listdir(locale_dir)):
-                result.append(Locale.parse(folder))
+                result.append(folder)
         if not result:
-            result.append(Locale.parse(self._default_locale))
+            result.append(self._default_locale)
         return result
 
     @property
@@ -169,7 +167,7 @@ class Babel(object):
         """The default locale from the configuration as instance of a
         `babel.Locale` object.
         """
-        return Locale.parse(self.app.config['BABEL_DEFAULT_LOCALE'])
+        return self.app.config['BABEL_DEFAULT_LOCALE']
 
     @property
     def default_timezone(self):
@@ -214,7 +212,7 @@ def get_locale():
             if rv is None:
                 locale = babel.default_locale
             else:
-                locale = Locale.parse(rv)
+                locale = rv
         ctx.babel_locale = locale
     return locale
 
