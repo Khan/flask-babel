@@ -476,15 +476,13 @@ def ngettext(singular, plural, num, **variables):
     """Translates a string with the current locale and passes in the
     given keyword arguments as mapping to a string formatting string.
     The `num` parameter is used to dispatch between singular and various
-    plural forms of the message.  It is available in the format string
-    as ``%(num)d`` or ``%(num)s``.  The source language should be
+    plural forms of the message.  The source language should be
     English or a similar language which only has one plural form.
 
     ::
 
         ngettext(u'%(num)d Apple', u'%(num)d Apples', num=len(apples))
     """
-    variables.setdefault('num', num)
     t = get_translations()
     if t is None:
         translated_string = (singular if num == 1 else plural)
